@@ -4,7 +4,7 @@ lazy val root = (project in file("."))
     scalaVersion := "2.13.9",
     libraryDependencies ++= Seq(
       "com.github.scopt" %% "scopt" % "4.1.0",
-      "com.softwaremill.sttp.client3" %% "core" % "3.7.6"
+      "com.softwaremill.sttp.client3" %% "core" % "3.8.0"
     )
   )
   .enablePlugins(BuildInfoPlugin)
