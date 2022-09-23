@@ -68,11 +68,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: macos-intel
+      - name: Calc SHA-256
+        run: echo "sha256_macos_intel=$(sha256sum line-notify.tar.gz | cut -f 1 -d ' ')" >> $GITHUB_ENV
       - name: Update formula
         uses: danielr1996/envsubst-action@1.1.0
         env:
           VERSION: "${{ github.ref_name }}"
-          SHA256_MACOS_INTEL: "${{ hashFiles('line-notify.tar.gz') }}"
+          SHA256_MACOS_INTEL: "${{ env.sha256_macos_intel }}"
         with:
           input: line-notify.rb.envsubst
           output: line-notify.rb
