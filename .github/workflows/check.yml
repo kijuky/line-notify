@@ -6,10 +6,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
       - name: Setup Scalafmt
-        uses: coursier/setup-action@v1.1.2
-        with:
-          apps: scalafmt
+        uses: coursier/setup-action@v1
       - name: Test Scalafmt
-        run: scalafmt --test
+        run: sbt scalafmtCheck scalafmtSbtCheck Test/scalafmtCheck
+
+  native-image:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup sbt
+        uses: coursier/setup-action@v1
+      - name: Build native image
+        run: sbt nativeImage
+      - name: Upload native image
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-intel
+          path: target/native-image/line-notify

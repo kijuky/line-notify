@@ -1,0 +1,13 @@
+name: Update brew
+on:
+  push
+jobs:
+  update-brew:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          repository: kijuky/homebrew-tools
+      - name: Debug ls
+        run: ls -al
