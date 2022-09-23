@@ -11,15 +11,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup Scalafmt
+      - name: Setup Scala
         uses: coursier/setup-action@v1
-      - name: Test Scalafmt
+      - name: Check Scalafmt
         run: sbt scalafmtCheck scalafmtSbtCheck Test/scalafmtCheck
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Scala
+        uses: coursier/setup-action@v1
+      - name: Test Sbt
+        run: sbt test
 
   native-image:
     runs-on: macos-latest
     needs:
       - scalafmt
+      - test
     steps:
       - name: Checkout
         uses: actions/checkout@v3
