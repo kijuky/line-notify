@@ -55,7 +55,6 @@ jobs:
           prerelease: false
           files: |
             line-notify.tar.gz
-            line-notify.sha256
 
   create-formula:
     runs-on: ubuntu-latest
@@ -98,4 +97,5 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
+          token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
           delete-branch: true
