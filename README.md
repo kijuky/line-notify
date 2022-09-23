@@ -4,7 +4,10 @@
 
 ## インストール
 
-TBD
+```shell
+brew tap kijuky/tools
+brew install line-notify
+```
 
 ## 使い方
 

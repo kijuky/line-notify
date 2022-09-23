@@ -36,11 +36,6 @@ jobs:
         with:
           name: macos-intel
           path: target/native-image/line-notify.zip
-      - name: Upload native image (debug)
-        uses: actions/upload-artifact@v3
-        with:
-          name: macos-intel-debug
-          path: target/native-image/line-notify
 
   create-release:
     runs-on: ubuntu-latest
@@ -103,5 +98,5 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
+          token: "${{ secrets.ADMIN_GITHUB_TOKEN }}"
           delete-branch: true
