@@ -72,7 +72,7 @@ jobs:
         uses: danielr1996/envsubst-action@1
         env:
           VERSION: "${{ github.ref_name }}"
-          SHA256_MACOS_INTEL: "${{ hashFiles(line-notify) }}"
+          SHA256_MACOS_INTEL: "${{ hashFiles('line-notify') }}"
         with:
           input: line-notify.rb.envsubst
           output: line-notify.rb
