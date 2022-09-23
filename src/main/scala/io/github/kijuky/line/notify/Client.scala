@@ -9,7 +9,7 @@ case class Client(accessToken: String) {
   def notify(message: String): Response[Either[String, String]] = {
     val request = basicRequest
       .headers(Map("Authorization" -> s"Bearer $accessToken"))
-      .body(Map("message" -> message))
+      .body(Map("message" -> message.take(1000)))
       .post(uri)
 
     request.send(backend)
