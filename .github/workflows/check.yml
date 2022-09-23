@@ -69,7 +69,7 @@ jobs:
         with:
           name: macos-intel
       - name: Update formula
-        uses: danielr1996/envsubst-action@1
+        uses: danielr1996/envsubst-action@1.1.0
         env:
           VERSION: "${{ github.ref_name }}"
           SHA256_MACOS_INTEL: "${{ hashFiles('line-notify') }}"
