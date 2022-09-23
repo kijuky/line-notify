@@ -27,12 +27,17 @@ jobs:
         uses: coursier/setup-action@v1
       - name: Build native image
         run: sbt nativeImage
+      - name: Archive artifacts
+        working-directory: target/native-image
+        run: |
+          chmod +x line-notify
+          tar -zcvf line-notify.tar.gz line-notify
       - name: Upload native image
         if: "${{ github.ref_type == 'tag' }}"
         uses: actions/upload-artifact@v3
         with:
           name: macos-intel
-          path: target/native-image/line-notify
+          path: target/native-image/line-notify.tar.gz
 
   create-release:
     runs-on: ubuntu-latest
@@ -44,10 +49,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: macos-intel
-      - name: Archive artifacts
-        run: |
-          chmod +x line-notify
-          tar -zcvf line-notify.tar.gz line-notify
       - name: Create Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -71,7 +72,7 @@ jobs:
         uses: danielr1996/envsubst-action@1.1.0
         env:
           VERSION: "${{ github.ref_name }}"
-          SHA256_MACOS_INTEL: "${{ hashFiles('line-notify') }}"
+          SHA256_MACOS_INTEL: "${{ hashFiles('line-notify.tar.gz') }}"
         with:
           input: line-notify.rb.envsubst
           output: line-notify.rb
