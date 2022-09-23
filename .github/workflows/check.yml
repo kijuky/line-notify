@@ -28,16 +28,21 @@ jobs:
       - name: Build native image
         run: sbt nativeImage
       - name: Archive artifacts
+        if: "${{ github.ref_type == 'tag' }}"
         working-directory: target/native-image
         run: |
           chmod +x line-notify
-          tar -zcvf line-notify.tar.gz line-notify
+          tar -cvzf line-notify.tar.gz line-notify
       - name: Upload native image
-        if: "${{ github.ref_type == 'tag' }}"
         uses: actions/upload-artifact@v3
         with:
           name: macos-intel
           path: target/native-image/line-notify.tar.gz
+      - name: Upload native image (debug)
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-intel-debug
+          path: target/native-image/line-notify
 
   create-release:
     runs-on: ubuntu-latest
