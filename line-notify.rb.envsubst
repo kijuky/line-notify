@@ -4,7 +4,7 @@ class LineNotify < Formula
   version "$VERSION"
   license "MIT"
 
-  url ""
+  url "https://github.com/kijuky/line-notify/releases/download/$VERSION/line-notify.tar.gz"
   sha256 "$SHA256_MACOS_INTEL"
 
   def install

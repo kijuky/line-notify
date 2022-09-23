@@ -44,10 +44,58 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: macos-intel
+      - name: Archive artifacts
+        run: |
+          chmod +x line-notify
+          tar -zcvf line-notify.tar.gz line-notify
       - name: Create Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            line-notify
+            line-notify.tar.gz
+            line-notify.sha256
+
+  create-formula:
+    runs-on: ubuntu-latest
+    needs:
+      - create-release
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: Download native image
+        uses: actions/download-artifact@v3
+        with:
+          name: macos-intel
+      - name: Update formula
+        uses: danielr1996/envsubst-action@1
+        env:
+          VERSION: "${{ github.ref_name }}"
+          SHA256_MACOS_INTEL: "${{ hashFiles(line-notify) }}"
+        with:
+          input: line-notify.rb.envsubst
+          output: line-notify.rb
+      - name: Upload formula
+        uses: actions/upload-artifact@v3
+        with:
+          name: formula
+          path: line-notify.rb
+
+  update-tap:
+    runs-on: ubuntu-latest
+    needs:
+      - create-formula
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          repository: kijuky/homebrew-tools
+      - name: Download formula
+        uses: actions/download-artifact@v3
+        with:
+          name: formula
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          delete-branch: true
