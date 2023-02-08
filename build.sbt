@@ -5,7 +5,7 @@ lazy val root = (project in file("."))
     scalacOptions ++= Seq("-Werror", "-Xlint"),
     libraryDependencies ++= Seq(
       "com.github.scopt" %% "scopt" % "4.1.0",
-      "com.softwaremill.sttp.client3" %% "core" % "3.8.9"
+      "com.softwaremill.sttp.client3" %% "core" % "3.8.11"
     )
   )
   .enablePlugins(BuildInfoPlugin)
